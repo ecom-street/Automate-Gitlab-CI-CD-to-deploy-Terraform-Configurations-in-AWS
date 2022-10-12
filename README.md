@@ -33,3 +33,16 @@ The + at the top of the screen where you can create new projects/snippets/reposi
 Two red boxes: Master. This is where your branch(es) are located. Remember best CI/CD practice is to not push anything to the master branch until it has been tested and ready for production. Code should only end up in the master branch as the result of approved code from your senior member or manager as the result of a merge request.
 
 .gitlab-ci.yml file — this file has to be in the branch where you want to eventually run your CI/CD pipeline. This file essentially creates that pipeline and Gitlab have several template files based on the provider that you want to provision infrastructure to.
+![image](https://user-images.githubusercontent.com/115148205/195287830-ab82f86c-5711-46fd-941f-5985418a9e32.png)
+
+Notice how many template files Gitlab provides. While they would require a little modification many times it’s a great starting point. (You can find the above option by going to new file.
+
+Blue box: Merge Requests. This is where you can submit a request to the admin, in this case in our personal accounts. Here you can merge branches.
+
+Blue arrow: CI/CD processes. Here is where you can locate the Pipelines, Jobs, Schedules, and Test Cases. Today we will address the Pipeline.
+<img width="330" alt="gl2" src="https://user-images.githubusercontent.com/115148205/195288268-9b10e56e-871b-435a-acdc-226b715391f7.PNG">
+
+# .Gitlab-ci.yml file for Terraform.
+In short, in this file, you will notice that the processes here are running in an official docker container under the official hashicorp image.
+
+
