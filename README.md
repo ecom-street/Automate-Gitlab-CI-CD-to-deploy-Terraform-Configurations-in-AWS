@@ -77,4 +77,28 @@ Now let us navigate to the CI/CD tab on the left-hand side of your repo menu scr
 <img width="949" alt="run" src="https://user-images.githubusercontent.com/115148205/195326544-098d24f8-9051-48c0-bd36-f1d83b78fa3f.PNG">
 
 You should see the Pipeline has started to run.
+<img width="944" alt="d1" src="https://user-images.githubusercontent.com/115148205/195333732-f04bbcb9-ebdf-4e2e-a0ea-66cdce17e938.PNG">
+
+If you click on validate you will see a terminal appear on the next screen where you can see the processes currently being performed.
+<img width="939" alt="validate1" src="https://user-images.githubusercontent.com/115148205/195333981-30ac48d9-a903-4f62-827f-471a6dba28c9.PNG">
+![image](https://user-images.githubusercontent.com/115148205/195334230-1fbb087d-17d2-4146-ab96-c9d1ac66432b.png)
+
+Click on the pipeline# to return to the previous screen where we can view the Pipeline.
+You see the build stage has already been completed.
+<img width="944" alt="build" src="https://user-images.githubusercontent.com/115148205/195334610-46f4eddf-6214-4388-ace3-638de13d97ef.PNG">
+
+Click on the pipeline # to return to the pipeline.
+
+The apply stage will take some time to spin up the infrastructure in your account. You have the option to click on apply or the play button which will trigger it to build or when you click on apply you will see this screen and can trigger it to build either or works.
+
+<img width="941" alt="a1" src="https://user-images.githubusercontent.com/115148205/195334857-6f79a0af-f6dd-4cfe-91c2-cbf4e9e893f8.PNG">
+
+Navigate to your cloud account and watch the resources spin up. While I won’t go through each resource that was provisioned you can see from the below screenshot that our Tf-vpc created from the Terraform configuration file in our GitLab repo.
+<img width="940" alt="aws1" src="https://user-images.githubusercontent.com/115148205/195335077-c613c880-8a74-4045-b6aa-03c7edd7d1c9.PNG">
+
+We can see that our job has succeeded and all of our resources have been provisioned.
+
+<img width="944" alt="a2" src="https://user-images.githubusercontent.com/115148205/195335227-3c7caed8-a8b4-4083-a251-33cec48b9e4f.PNG">
+
+If we click the drop-down menu on the right-hand bottom of the screen we can now get to our destroy stage of our pipeline. Click on destroy then trigger the manual action for destruction and that completes this lab.
 
