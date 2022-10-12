@@ -48,95 +48,33 @@ Blue arrow: CI/CD processes. Here is where you can locate the Pipelines, Jobs, S
 
 # .Gitlab-ci.yml file for Terraform.
 In short, in this file, you will notice that the processes here are running in an official docker container under the official hashicorp image.
+<img width="851" alt="GT4" src="https://user-images.githubusercontent.com/115148205/195320746-e7a97a1a-e7c1-42f8-a9bf-f1a95ab2ee33.PNG">
+<img width="800" alt="GT5" src="https://user-images.githubusercontent.com/115148205/195321024-962429c0-12dd-4a21-9131-147d03e0d84e.PNG">
+<img width="837" alt="GT6" src="https://user-images.githubusercontent.com/115148205/195321289-659c6e40-0d35-4d58-989b-60ed0bbff274.PNG">
+<img width="794" alt="GT7" src="https://user-images.githubusercontent.com/115148205/195321689-f51cc766-5c61-4c0f-9950-041b66cba026.PNG">
 
-image:
-  name: hashicorp/terraform:light
-  entrypoint:
-    - '/usr/bin/env'
-    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-    - 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}' 
-    - 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}' 
-    - 'AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}'
+The stages sections of the file are the “stages” you will see in just a few on the CI/CD pipeline.
+<img width="559" alt="stage" src="https://user-images.githubusercontent.com/115148205/195322036-428b4086-c7b4-419b-8144-7ac9877f5699.PNG">
 
-variables:
-  PLAN: plan.tfplan
+Validate: let us make sure that our terraform configurations file contains valid code and doesn’t have any functional or syntax errors by running -terraform validate. This stage will happen automatically due to not specifying a “when:” attribute that you will see in the apply and destroy stages which require a manual “approve” action.
+Plan: Here we will test our code to see what it will deploy by running the -terraform plan command. This stage will happen automatically due to not specifying a “when:” attribute that you will see in the apply and destroy stages which require a manual “approve” action.
 
-cache:
-  paths:
-    - .terraform
+Apply: Here we will deploy terraform code to the AWS console where you can see the infrastructure being built. This stage contains the “when:” attribute block because in a production setup your manager will likely have to approve the code before deploying the resources to your specified cloud provider.
+<img width="588" alt="apply1" src="https://user-images.githubusercontent.com/115148205/195322471-084f7938-7a40-4b0f-9888-70de972ee5ef.PNG">
 
-before_script:
-  - terraform --version
-  - terraform init
+Destroy: BRING THE ENTIRE CLOUD INFRASTRUCTURE DOWN. As you can imagine this is an extremely dangerous command to run in a production environment. Hence, here you will see the same attribute of “when:” and manual.
 
-stages:
-  - validate
-  - plan
-  - apply
-  - destroy
+I also want to point out the “only:” attribute here that is set to -master. The pipeline will not run on any of the other branches with this option set to master. This denotes your master branch. Guess how I found out? Because I tried it in another branch and it did not work.
+<img width="591" alt="destoy1" src="https://user-images.githubusercontent.com/115148205/195323251-55185d7a-fc45-4aa2-ad9b-dc62bea1c1ce.PNG">
 
-validate:
-  stage: validate
-  script:
-    - terraform validate
-  only:
-    - branches
+Before we run our pipeline we have to set up environment variables with our AWS login, and Default region where we will provision this infrastructure. Go to setting on the left-hand bottom side of the repo menu pull your credentials from your AWS/Cloud account. Scroll down to Variables and enter in the information.
 
-plan:
-  stage: plan
-  script:
-    - terraform plan -out=$PLAN
-    - echo \`\`\`diff > plan.txt
-    - terraform show -no-color ${PLAN} | tee -a plan.txt
-    - echo \`\`\` >> plan.txt
-    - sed -i -e 's/  +/+/g' plan.txt
-    - sed -i -e 's/  ~/~/g' plan.txt
-    - sed -i -e 's/  -/-/g' plan.txt
-    - MESSAGE=$(cat plan.txt)
-    - >-
-      curl -X POST -g -H "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" 
-      --data-urlencode "body=${MESSAGE}" 
-      "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}/discussions"
-  artifacts:
-    name: plan
-    paths:
-      - $PLAN
-  only:
-    - merge_requests
+*Please make sure you do not host any credentials in any of your configuration files. Gitlab will fail your pipeline if they do exist.
+<img width="946" alt="variable1" src="https://user-images.githubusercontent.com/115148205/195323773-64822f81-1ef0-453f-b264-4084b175d3fa.PNG">
 
-build:
-  stage: plan
-  script:
-    - terraform plan -out=$PLAN
-  artifacts:
-    name: plan
-    paths:
-      - $PLAN
-  only:
-    - master
+Now let us navigate to the CI/CD tab on the left-hand side of your repo menu screen and select Pipelines. Once you arrive on the next screen select Run Pipeline. Again nothing will provision in your cloud account because of the manual setting we have in our .gitlab-ci.yml file, which requires us to click approve to spin up the infrastructure.
 
-apply:
-  stage: apply
-  script:
-    - terraform apply -input=false $PLAN
-  dependencies:
-    - build
-  when: manual
-  only:
-    - master
+<img width="949" alt="run" src="https://user-images.githubusercontent.com/115148205/195326544-098d24f8-9051-48c0-bd36-f1d83b78fa3f.PNG">
 
-destroy:
-  stage: destroy
-  script:
-    - echo "Destroying resources"
-    - terraform destroy -state=$STATE --auto-approve
-  dependencies:
-    - apply  
-  when: manual
-  only:
-    refs:
-      - master
-      
- 
-
+You should see the Pipeline has started to run.
 
