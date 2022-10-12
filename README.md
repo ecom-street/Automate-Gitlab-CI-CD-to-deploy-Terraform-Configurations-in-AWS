@@ -21,7 +21,8 @@ In this lab, you can use any existing terraform code you may have. We won’t be
 Navigate to Gitlab.com, create your account, and create a repository to host your code in.
 
 We will start inside of my/your repository… let’s get started.
-<img width="903" alt="gitlab" src="https://user-images.githubusercontent.com/115148205/195272879-1ff1457a-ff2a-49d8-91ec-b77d507097f1.PNG">
+<img width="903" alt="gitlab" src="https://user-images.githubusercontent.com/115148205/195275601-7ca5f6f8-06b7-4c12-8c52-f55d668ba32e.PNG">
+
 
 I have labeled a few things on the above screenshot I would like to point out before we proceed.
 
