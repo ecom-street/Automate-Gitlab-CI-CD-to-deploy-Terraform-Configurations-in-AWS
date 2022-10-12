@@ -15,7 +15,8 @@ GitLab is an open-source end-to-end software development platform with built-in 
 # Github vs. Gitlab
 See the below link on Gitlabs’ organization page about the difference between the two. https://about.gitlab.com/devops-tools/github-vs-gitlab/.
 Gitlab has some vibrant features that assist developers and the CI/CD process on one single platform whereas Github is more “available” and more widely used. Gitlab has secret detection where in some cases you can deploy the code if secrets exist in your code protecting you from security vulnerabilities. I found that out by trial and error 😂.
-We will start inside of my/your repository… let’s get started.
+In this lab, you can use any existing terraform code you may have. We won’t be focusing on the intricacies of Terraform in the lab but more on the CI/CD process that Gitlab provides that can enhance your organization’s code, container, and package repositories. Below I will provide the link to my public repository where my custom vpc code for this presentation will reside. Feel free to copy, paste, and change the code to your liking:
+https://gitlab.com/ci-cd76/terraform-cicd
 
 
 
