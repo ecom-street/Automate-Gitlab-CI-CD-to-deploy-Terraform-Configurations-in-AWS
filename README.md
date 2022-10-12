@@ -16,6 +16,6 @@ GitLab is an open-source end-to-end software development platform with built-in 
 See the below link on Gitlabs’ organization page about the difference between the two. https://about.gitlab.com/devops-tools/github-vs-gitlab/.
 Gitlab has some vibrant features that assist developers and the CI/CD process on one single platform whereas Github is more “available” and more widely used. Gitlab has secret detection where in some cases you can deploy the code if secrets exist in your code protecting you from security vulnerabilities. I found that out by trial and error 😂.
 We will start inside of my/your repository… let’s get started.
-![gitlab](https://user-images.githubusercontent.com/115148205/195258348-07f9f9a7-d88f-4d80-8125-0b7804a1aeed.png)
+
 
 
